@@ -42,4 +42,5 @@ RESOURCES.each do |res|
   instance_variable_set(:"@#{res}", received_data: fetch_resource(http, res))
   puts "\n#{res} = "
   pp instance_variable_get(:"@#{res}")
+  Object.const_get("#{res.capitalize}DataCoherser").run(instance_variable_get(:"@#{res}")[:received_data])
 end
