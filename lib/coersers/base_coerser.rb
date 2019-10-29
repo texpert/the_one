@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class BaseCoherser
+class BaseCoerser
+  NODES = %w[alpha beta gamma delta theta lambda tau psi omega].freeze
+
   def self.run(data_input)
     new(data_input).run
   end
