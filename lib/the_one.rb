@@ -8,13 +8,14 @@ class TheOne
   BASE_URI = 'https://challenge.distribusion.com/the_one/routes'
   SOURCES = %w[sentinels sniffers loopholes].freeze
 
-  def self.run(http_client: HTTPX.headers('accept' => 'application/json'))
-    new(client: http_client).run
+  def self.run(http_client: HTTPX.headers('accept' => 'application/json'), url: BASE_URI)
+    new(client: http_client, url: url).run
   end
 
-  def initialize(client:)
+  def initialize(client:, url:)
     @client = client
     @original_csv_converter = CSV::Converters
+    @url = url
   end
 
   def run
@@ -34,7 +35,7 @@ class TheOne
   private
 
   def fetch_resource(client, source)
-    response = client.get(BASE_URI, params: { passphrase: PASSPHRASE, source: source })
+    response = client.get(@url, params: { passphrase: PASSPHRASE, source: source })
     entries = {}
     Zip::File.open_buffer(StringIO.new(response.body)) do |entry_set|
       entry_set.each do |entry|
