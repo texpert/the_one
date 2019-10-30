@@ -14,10 +14,10 @@ class SentinelsDataCoerser < BaseCoerser
       previous_route_id = sorted_data[i - 1][:route_id]
       next_route_id = sorted_data[i + 1][:route_id]
       if route_id != previous_route_id && route_id == next_route_id
-        result << { start_node: node, start_time: entry[:time] }
+        result << { start_node: node, start_time: entry[:time].iso8601.chop }
       elsif route_id == previous_route_id
-        result.last.merge!(end_node: node, end_time: entry[:time])
-        result << { start_node: node, start_time: entry[:time] } if route_id == next_route_id
+        result.last.merge!(end_node: node, end_time: entry[:time].iso8601.chop)
+        result << { start_node: node, start_time: entry[:time].iso8601.chop } if route_id == next_route_id
       end
     end
     result

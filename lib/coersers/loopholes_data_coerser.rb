@@ -12,8 +12,8 @@ class LoopholesDataCoerser < BaseCoerser
 
       result << { start_node: route_node_pair['start_node'],
                   end_node:   route_node_pair['end_node'],
-                  start_time: DateTime.parse(route['start_time']).to_time.utc,
-                  end_time:   DateTime.parse(route['end_time']).to_time.utc }
+                  start_time: DateTime.parse(route['start_time']).to_time.utc.iso8601.chop,
+                  end_time:   DateTime.parse(route['end_time']).to_time.utc.iso8601.chop }
     end
     result
   end

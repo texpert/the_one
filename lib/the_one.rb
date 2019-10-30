@@ -2,6 +2,7 @@
 
 require 'csv'
 require 'httpx'
+require 'time'
 require 'zip'
 
 class TheOne
@@ -22,11 +23,11 @@ class TheOne
     override_csv_converters
 
     SOURCES.each do |res|
-      instance_variable_set(:"@#{res}", received_data: fetch_resource(@client, res))
-      puts "\n#{res} = "
-      pp instance_variable_get(:"@#{res}")
-      data = Object.const_get("#{res.capitalize}DataCoerser").run(instance_variable_get(:"@#{res}")[:received_data])
-      data
+      data = Object.const_get("#{res.capitalize}DataCoerser").run(fetch_resource(res))
+      data.each do |item|
+        result = @client.post(@url, json: { passphrase: PASSPHRASE, source: res, **item })
+        puts
+      end
     end
   ensure
     CSV::Converters[:date_time] = @original_csv_converter[:date_time]
@@ -34,8 +35,8 @@ class TheOne
 
   private
 
-  def fetch_resource(client, source)
-    response = client.get(@url, params: { passphrase: PASSPHRASE, source: source })
+  def fetch_resource(source)
+    response = @client.get(@url, params: { passphrase: PASSPHRASE, source: source })
     entries = {}
     Zip::File.open_buffer(StringIO.new(response.body)) do |entry_set|
       entry_set.each do |entry|
