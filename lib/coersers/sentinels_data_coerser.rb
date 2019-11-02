@@ -3,7 +3,7 @@
 require_relative 'base_coerser'
 
 class SentinelsDataCoerser < BaseCoerser
-  def run
+  def run # rubocop:disable Metrics/AbcSize
     sorted_data = @data['routes'].sort_by { |r| [r[:route_id], r[:time]] }
     result = []
     sorted_data.each_with_index do |entry, i|

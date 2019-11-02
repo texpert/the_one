@@ -25,8 +25,7 @@ class TheOne
     SOURCES.each do |res|
       data = Object.const_get("#{res.capitalize}DataCoerser").run(fetch_resource(res))
       data.each do |item|
-        result = @client.post(@url, json: { passphrase: PASSPHRASE, source: res, **item })
-        puts
+        @client.post(@url, json: { passphrase: PASSPHRASE, source: res, **item })
       end
     end
   ensure
@@ -64,7 +63,7 @@ class TheOne
       begin
         e = f.encode(CSV::ConverterEncoding)
         DateTime.parse(e).to_time.utc
-      rescue  # encoding conversion or date parse errors
+      rescue StandardError # encoding conversion or date parse errors
         f
       end
     }

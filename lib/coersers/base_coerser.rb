@@ -12,6 +12,6 @@ class BaseCoerser
   end
 
   def run
-    raise RuntimeError, 'This is an abstract base class method, which should be implemented in each inheriting class'
+    raise 'This is an abstract base class method, which should be implemented in each inheriting class'
   end
 end
