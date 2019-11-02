@@ -18,8 +18,6 @@ group :development do
 end
 
 group :test do
-  #gem 'factory_bot'
-  #gem 'faker'
-  #gem 'rspec'
-  #gem 'shoulda-matchers'
+  gem 'faker'
+  gem 'rspec'
 end
