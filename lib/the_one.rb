@@ -6,7 +6,8 @@ require 'time'
 require 'zip'
 
 class TheOne
-  BASE_URI = 'https://challenge.distribusion.com/the_one/routes'
+  BASE_URI = ENV.fetch('BASE_URI', 'https://challenge.distribusion.com/the_one/routes')
+  PASSPHRASE = ENV.fetch('PASSPHRASE', 'Kans4s-i$-g01ng-by3-bye')
   SOURCES = %w[sentinels sniffers loopholes].freeze
 
   def self.run(http_client: HTTPX.headers('accept' => 'application/json'), url: BASE_URI)
